@@ -1,21 +1,6 @@
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
-
-entity bin_to_bcd is
-	port(
-		bin_in			: in  std_logic_vector(11 downto 0);
-		ones_bcd		: out std_logic_vector(3 downto 0);
-		tens_bcd		: out std_logic_vector(3 downto 0);
-		hundreds_bcd	: out std_logic_vector(3 downto 0)
-	);
-end bin_to_bcd;
-
-architecture beh of bin_to_bcd is
-begin
-
-bcd1: process(bin_in)
-variable temp : STD_LOGIC_VECTOR (11 downto 0);
+bcd1: process(result_padded)
+  -- temporary variable
+  variable temp : STD_LOGIC_VECTOR (11 downto 0);
   
   -- variable to store the output BCD number
   -- organized as follows
@@ -33,7 +18,7 @@ variable temp : STD_LOGIC_VECTOR (11 downto 0);
     bcd := (others => '0');
     
     -- read input into temp variable
-    temp(11 downto 0) := bin_in;
+    temp(11 downto 0) := result_padded;
     
     -- cycle 12 times as we have 12 input bits
     -- this could be optimized, we dont need to check and add 3 for the 
@@ -63,9 +48,8 @@ variable temp : STD_LOGIC_VECTOR (11 downto 0);
     end loop;
  
     -- set outputs
-    ones_bcd <= STD_LOGIC_VECTOR(bcd(3 downto 0));
-    tens_bcd <= STD_LOGIC_VECTOR(bcd(7 downto 4));
-    hundreds_bcd <= STD_LOGIC_VECTOR(bcd(11 downto 8));
+    ones <= STD_LOGIC_VECTOR(bcd(3 downto 0));
+    tens <= STD_LOGIC_VECTOR(bcd(7 downto 4));
+    hundreds <= STD_LOGIC_VECTOR(bcd(11 downto 8));
     --thousands <= STD_LOGIC_VECTOR(bcd(15 downto 12));
-	end process bcd1;
-end beh;
+  end process bcd1; 

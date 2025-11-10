@@ -11,6 +11,7 @@ entity add_sub is
     clk           : in  std_logic;
     reset         : in  std_logic;
     next_btn       : in  std_logic;
+	display	  : out std_logic_vector(11 downto 0);
     seg_hundreds  : out std_logic_vector(6 downto 0);
     seg_tens      : out std_logic_vector(6 downto 0);
     seg_ones      : out std_logic_vector(6 downto 0)
@@ -55,7 +56,7 @@ end component seven_seg;
 
 component bin_to_bcd is
   port (
-    bin_in			: in  std_logic_vector(7 downto 0);
+		bin_in			: in  std_logic_vector(11 downto 0);
 		ones_bcd		: out std_logic_vector(3 downto 0);
 		tens_bcd		: out std_logic_vector(3 downto 0);
 		hundreds_bcd	: out std_logic_vector(3 downto 0)
@@ -69,7 +70,7 @@ component fsm_controller is
     clk           : in  std_logic;
     reset         : in  std_logic;
     next_btn      : in  std_logic;
-    display_val   : out std_logic_vector(7 downto 0)
+    display_val   : out std_logic_vector(11 downto 0)
   );
 end component fsm_controller;
 
@@ -80,7 +81,7 @@ end component fsm_controller;
   signal next_button                          : std_logic;
   signal syn_a, syn_b, sum, diff              : std_logic_vector(bits-1 downto 0);
   signal ones, tens, hundreds                 : std_logic_vector(3 downto 0);
-  signal output                               : std_logic_vector(bits-1 downto 0);
+  signal output                               : std_logic_vector(11 downto 0);
 
 begin
   -- ports all functions --
@@ -123,6 +124,8 @@ begin
       next_btn => next_button,
       display_val => output
     );
+	
+	display <= output;
     
     u_bcd : bin_to_bcd
       port map(

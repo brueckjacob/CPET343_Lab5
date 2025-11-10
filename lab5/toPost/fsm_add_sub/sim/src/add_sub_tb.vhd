@@ -13,7 +13,8 @@ architecture arch of add_sub_tb is
       b             : in  std_logic_vector(7 downto 0);
       clk           : in  std_logic;
       reset         : in  std_logic;
-      next_btn       : in  std_logic;
+      next_btn      : in  std_logic;
+	  display	: out  std_logic_vector(11 downto 0);
       seg_hundreds  : out std_logic_vector(6 downto 0);
       seg_tens      : out std_logic_vector(6 downto 0);
       seg_ones      : out std_logic_vector(6 downto 0)
@@ -31,6 +32,7 @@ architecture arch of add_sub_tb is
   signal seg_hundreds: std_logic_vector(6 downto 0) := (others => '0');
   signal seg_tens: std_logic_vector(6 downto 0) := (others => '0');
   signal seg_ones: std_logic_vector(6 downto 0) := (others => '0');
+  signal output : std_logic_vector(11 downto 0);
   
   begin
     uut: add_sub
@@ -40,6 +42,7 @@ architecture arch of add_sub_tb is
       reset => reset,
       clk => clk,
       next_btn => next_btn,
+	  display => output,
       seg_hundreds => seg_hundreds,
       seg_tens => seg_tens,
       seg_ones => seg_ones
@@ -75,7 +78,7 @@ architecture arch of add_sub_tb is
 
         -- Display SUM
         next_btn <= '1'; wait for 50 ns; next_btn <= '0'; wait for 50 ns;
-
+		
         -- Display DIFF
         next_btn <= '1'; wait for 50 ns; next_btn <= '0'; wait for 50 ns;
 
@@ -86,10 +89,10 @@ architecture arch of add_sub_tb is
         --B = 5
         b <= std_logic_vector(to_unsigned(5, 8));
         next_btn <= '1'; wait for 50 ns; next_btn <= '0'; wait for 50 ns;
-
+		
         -- Display SUM
         next_btn <= '1'; wait for 50 ns; next_btn <= '0'; wait for 50 ns;
-
+		
         -- Display DIFF
         next_btn <= '1'; wait for 50 ns; next_btn <= '0'; wait for 50 ns;
 
